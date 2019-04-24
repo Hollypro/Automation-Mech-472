@@ -1,0 +1,27 @@
+﻿Build started 2019-04-23 12:58:49 PM.
+     1>Project "C:\Users\hugo1\Desktop\Project\Image Recognition\program.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D CONSOLE_IO /D _VC80_UPGRADE=0x0600 /D _MBCS /GF /Gm- /EHsc /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt program.cpp
+         program.cpp
+     1>program.cpp(32): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(131) : see declaration of 'getch'
+     1>program.cpp(87): warning C4244: '=' : conversion from 'double' to 'ibyte', possible loss of data
+     1>program.cpp(88): warning C4244: '*=' : conversion from 'double' to 'ibyte', possible loss of data
+     1>program.cpp(109): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _kbhit. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(133) : see declaration of 'kbhit'
+     1>program.cpp(110): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(131) : see declaration of 'getch'
+     1>program.cpp(124): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(131) : see declaration of 'getch'
+     1>program.cpp(21): warning C4101: 'grey' : unreferenced local variable
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\program.exe" /INCREMENTAL /NOLOGO image_transfer2.lib odbc32.lib odbccp32.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcd /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:".\Debug\program.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\program.lib" /MACHINE:X86 /SAFESEH .\Debug\process_image.obj
+         .\Debug\program.obj
+         .\Debug\timer.obj
+         .\Debug\vision.obj
+         program.vcxproj -> C:\Users\hugo1\Desktop\Project\Image Recognition\.\Debug\program.exe
+     1>Done Building Project "C:\Users\hugo1\Desktop\Project\Image Recognition\program.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.20
