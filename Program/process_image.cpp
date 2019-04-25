@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cmath>
 #include <conio.h>
-//#include "image_transfer3.h"
-//#include "vision.h"
 #include "timer.h"
 #include "global_variables.h"
 

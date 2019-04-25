@@ -1,4 +1,6 @@
-
+#pragma once
+#ifndef TRANSFER3
+#define TRANSFER3
 // image types
 // RGB_IMAGE   is 3 bytes per pixel
 // GREY_IMAGE  is 1 bytes per pixel
@@ -59,3 +61,5 @@ int deactivate_process(); // process image deactivation
 int rgb_detection(image rgb_in, image &rgb_out); // basic script to detect RGB and grey everything out
 
 int shutdown(); //deallocate cameras, images, --opposite of setup()--
+
+#endif

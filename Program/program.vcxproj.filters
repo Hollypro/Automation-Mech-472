@@ -30,6 +30,9 @@
     <ClCompile Include="process_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="global_variables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="global_variables.h">
