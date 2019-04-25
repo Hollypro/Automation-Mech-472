@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <fstream>
 #include <iostream>
 #include <stdlib.h>
 #include <conio.h>
@@ -16,23 +17,16 @@ int main(int argc, char* argv[])
 {  
 	char ch;
 
-//	ShellExecute(NULL, "open", "C:\\Users\\Curtis\\Desktop\\School\\Mech 472\\mech663_lecture12\\computer_vision\\gcode_examples_new_vision_lib\\send_G_code_example3_keyboard_control\\image_view.exe", NULL, NULL, SW_SHOWDEFAULT);
-	ShellExecute(NULL, "open", "image_view.exe", NULL, NULL, SW_SHOWDEFAULT);
-
 	setup();
 
-	cout<<("\npress a key to acquire image\n");
-	getch();
+	cout<<("\npress x to exit\n");
 
 	while(1) {
 
 		acquire_image(rgb_nozzle, nozzle_camera);
+//		load_rgb_image("a.bmp", rgb_nozzle); //helps for troubleshooting
+		sobel(rgb_nozzle);
 		view_rgb_image(rgb_nozzle);
-		Sleep(500);
-
-		acquire_image(rgb_front,front_camera);
-		view_rgb_image(rgb_front);
-		Sleep(500);
 
 		// press 'x' key to end program
 		if (kbhit()) {
@@ -42,8 +36,6 @@ int main(int argc, char* argv[])
 	}
 
 	shutdown();
-
-	system("TASKKILL /F /IM image_view.exe 1>NULL");
 	
 	cout<<("\n\ndone.\n");
 	getch();

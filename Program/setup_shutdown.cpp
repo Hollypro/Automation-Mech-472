@@ -1,8 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <conio.h>
-//#include "image_transfer3.h"
-//#include "vision.h"
+#include <Windows.h>
 #include "timer.h"
 #include "global_variables.h"
 
@@ -10,6 +9,9 @@ using namespace std;
 
 int setup()
 {
+	//ShellExecute(NULL, "open", "C:\\Users\\Curtis\\Desktop\\School\\Mech 472\\mech663_lecture12\\computer_vision\\gcode_examples_new_vision_lib\\send_G_code_example3_keyboard_control\\image_view.exe", NULL, NULL, SW_SHOWDEFAULT);
+	ShellExecute(NULL, "open", "image_view.exe", NULL, NULL, SW_SHOWDEFAULT);
+
 	activate_camera(nozzle_camera, height, width);
 	activate_camera(front_camera, height, width);
 
@@ -58,6 +60,8 @@ int shutdown()
 	free_image(label_nozzle);
 	free_image(label_front);
 
-	deactivate_cameras(); //TODO: check if need twice for each activate_vision
+	deactivate_cameras();
+
+	system("TASKKILL /F /IM image_view.exe 1>NULL");
 	return 0;
 }

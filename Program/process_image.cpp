@@ -3,6 +3,7 @@
 #include <conio.h>
 #include "timer.h"
 #include "global_variables.h"
+#include "vision.h";
 
 using namespace std;
 
@@ -11,16 +12,6 @@ extern image rgb_in, rgb_copy;
 
 // sample time of current incoming image
 extern double t_sample;
-
-int activate_process()
-// process image initialization
-// executed at program startup before image acquisition takes place
-{
-
-
-	return 0;
-}
-
 
 int process_image()
 // this function is called continuously from the call back function
@@ -31,9 +22,15 @@ int process_image()
 int rgb_detection(image rgb_in, image &rgb_out)
 // detects RGB and grey everything else out
 {
+	//input error checks
+	if (rgb_in.width != rgb_out.width || rgb_in.height != rgb_out.height)
+	{
+		cout << "ERROR: rgb_detection--image sizes incompatible\n";
+		return 1;
+	}
 	if (rgb_in.type != RGB_IMAGE || rgb_out.type != RGB_IMAGE)
 	{
-		cout << "ERROR: rgb_detection -- image input type invalid";
+		cout << "ERROR: rgb_detection--image input type invalid\n";
 		return 1;
 	}
 
@@ -89,11 +86,277 @@ int rgb_detection(image rgb_in, image &rgb_out)
 	return 0;
 }
 
-int deactivate_process()
-// deactivation code
+int sobel(image grey_in, image &mag, image &theta)
+// grey input used if want theta
 {
+	//error checks
+	if (grey_in.height != mag.height || grey_in.height != theta.height || grey_in.width != mag.width || grey_in.width != theta.width)
+	{
+		cout << "ERROR: sobel--image size incompatible\n";
+		return 1;
+	}
+	if (grey_in.type != GREY_IMAGE || grey_in.type != mag.type || grey_in.type != theta.type)
+	{
+		cout << "ERROR: sobel--image input type invalid\n";
+		return 1;
+	}
+
+	ibyte *p, *p_mag, *p_theta, *p1, *p2, *p3, *p4, *p5, *p6, *p7, *p8, *p9;	// p7 p8 p9
+	i2byte width, height;														// p4 p5 p6
+	i4byte size, i, j;															// p1 p2 p3
+	int sx, sy, M;
+	double ang;
+	const double pi = 3.14159;
+	image temp;
+
+	width = grey_in.width;
+	height = grey_in.height;
+
+	temp.height = height;
+	temp.width = width;
+	temp.type = GREY_IMAGE;
+	allocate_image(temp);
+	copy(grey_in, temp);
+
+	p = temp.pdata + width + 1;
+	p_mag = mag.pdata + width + 1;
+	p_theta = theta.pdata + width + 1;
+
+	p1 = p - width - 1;
+	p2 = p - width;
+	p3 = p - width + 1;
+	p4 = p - 1;
+	p5 = p;
+	p6 = p + 1;
+	p7 = p + width - 1;
+	p8 = p + width;
+	p9 = p + width + 1;
+
+	size = (i4byte)width*(height - 2) - 2;
+
+	for (int i = 0; i < size; i++)
+	{
+		sx = -1 * (*p7) + 0 * (*p8) + 1 * (*p9)
+			- 2 * (*p4) + 0 * (*p5) + 2 * (*p6)
+			- 1 * (*p1) + 0 * (*p2) + 1 * (*p3);
+
+		sy = 1 * (*p7) + 2 * (*p8) + 1 * (*p9)
+			+ 0 * (*p4) + 0 * (*p5) + 0 * (*p6)
+			- 1 * (*p1) - 2 * (*p2) - 1 * (*p3);
+
+		M = abs(sx) + abs(sy); //easy approximation of sqrt(sx^2 +sy^2)
+		if (M > 255) M = 255; //check for overflow
+
+		ang = atan2((double)sy, (double)sx); //rad -pi to pi
+		ang = ang * 180.0 / pi; //deg 180 to 180
+		ang = ang + 180.0; //deg 0 to 360
+		ang = ang * 255.0 / 360.0 + 0.01; // pixel 0 - 255;
+
+		if (M < 75) ang = 0;
+
+		*p_mag = M;
+		*p_theta = (int)ang;
+
+		p1++; p2++; p3++; p4++; p5++; p6++; p7++; p8++;
+		p9++; p++; p_theta++; p_mag++;
+	}
+
+	p_mag = mag.pdata;
+	p_theta = theta.pdata;
+	size = (i4byte)height*width - 1;
+
+	for (int i = 1; i < width; i++)
+	{
+		p_mag[i] = p_mag[i + width]; //bottom
+		p_mag[size - i] = p_mag[size - width - i]; //top
+		p_theta[i] = p_theta[i + width];
+		p_theta[size - i] = p_theta[size - width - i];
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		p_mag[i*width] = p_mag[i*width + 1]; //left
+		p_mag[i*width + width - 1] = p_mag[i*width + width - 2]; //right
+		p_theta[i*width] = p_theta[i*width + 1];
+		p_theta[i*width + width - 1] = p_theta[i*width + width - 2];
+	}
+
+	free_image(temp);
 	return 0;
 }
 
+int sobel(image grey_in, image &mag)
+// grey input, used if ONLY want mag
+{
+	//error checks
+	if (grey_in.height != mag.height || grey_in.width != mag.width)
+	{
+		cout << "ERROR: sobel--image size incompatible\n";
+		return 1;
+	}
+	if (grey_in.type != GREY_IMAGE || grey_in.type != mag.type)
+	{
+		cout << "ERROR: sobel--image input type invalid\n";
+		return 1;
+	}
 
+	ibyte *p, *p_mag, *p1, *p2, *p3, *p4, *p5, *p6, *p7, *p8, *p9;	// p7 p8 p9
+	i2byte width, height;											// p4 p5 p6
+	i4byte size, i, j;												// p1 p2 p3
+	int sx, sy, M;
+	const double pi = 3.14159;
+	image temp;
+
+	width = grey_in.width;
+	height = grey_in.height;
+
+	temp.height = height;
+	temp.width = width;
+	temp.type = GREY_IMAGE;
+	allocate_image(temp);
+	copy(grey_in, temp);
+
+	p = temp.pdata + width + 1;
+	p_mag = mag.pdata + width + 1;
+
+	p1 = p - width - 1;
+	p2 = p - width;
+	p3 = p - width + 1;
+	p4 = p - 1;
+	p5 = p;
+	p6 = p + 1;
+	p7 = p + width - 1;
+	p8 = p + width;
+	p9 = p + width + 1;
+
+	size = (i4byte)width*(height - 2) - 2;
+
+	for (int i = 0; i < size; i++)
+	{
+		sx = -1 * (*p7) + 0 * (*p8) + 1 * (*p9)
+			- 2 * (*p4) + 0 * (*p5) + 2 * (*p6)
+			- 1 * (*p1) + 0 * (*p2) + 1 * (*p3);
+
+		sy = 1 * (*p7) + 2 * (*p8) + 1 * (*p9)
+			+ 0 * (*p4) + 0 * (*p5) + 0 * (*p6)
+			- 1 * (*p1) - 2 * (*p2) - 1 * (*p3);
+
+		M = abs(sx) + abs(sy); //easy approximation of sqrt(sx^2 +sy^2)
+		if (M > 255) M = 255; //check for overflow
+
+		*p_mag = M;
+
+		p1++; p2++; p3++; p4++; p5++; p6++; p7++; p8++;
+		p9++; p++; p_mag++;
+	}
+
+	p_mag = mag.pdata;
+	size = (i4byte)height*width - 1;
+
+	for (int i = 1; i < width; i++)
+	{
+		p_mag[i] = p_mag[i + width]; //bottom
+		p_mag[size - i] = p_mag[size - width - i]; //top
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		p_mag[i*width] = p_mag[i*width + 1]; //left
+		p_mag[i*width + width - 1] = p_mag[i*width + width - 2]; //right
+	}
+
+
+	free_image(temp);
+	return 0;
+}
+
+int sobel(image &image_in)
+// rgb or grey in, changes to greyscale mag sobel image
+{
+	//error checks
+	if (image_in.type == LABEL_IMAGE)
+	{
+		cout << "ERROR: sobel--image input type invalid/n";
+		return 1;
+	}
+
+	ibyte *p, *p_mag, *p1, *p2, *p3, *p4, *p5, *p6, *p7, *p8, *p9;	// p7 p8 p9
+	i2byte width, height;											// p4 p5 p6
+	i4byte size, i, j;												// p1 p2 p3
+	int sx, sy, M;
+	const double pi = 3.14159;
+	image temp,mag;
+
+	width = image_in.width;
+	height = image_in.height;
+
+	temp.height = height;
+	temp.width = width;
+	temp.type = GREY_IMAGE;
+	allocate_image(temp);
+	copy(image_in, temp); //ensures sobel done in greyscale
+	scale(temp, temp); //ensures 0-255 (important for sobel quality)
+
+	mag.height = height;
+	mag.width = width;
+	mag.type = GREY_IMAGE;
+	allocate_image(mag);
+	copy(temp, mag);
+
+	p = temp.pdata + width + 1;
+	p_mag = mag.pdata + width + 1;
+
+	p1 = p - width - 1;
+	p2 = p - width;
+	p3 = p - width + 1;
+	p4 = p - 1;
+	p5 = p;
+	p6 = p + 1;
+	p7 = p + width - 1;
+	p8 = p + width;
+	p9 = p + width + 1;
+
+	size = (i4byte)width*(height - 2) - 2;
+
+	for (int i = 0; i < size; i++)
+	{
+		sx = -1 * (*p7) + 0 * (*p8) + 1 * (*p9)
+			- 2 * (*p4) + 0 * (*p5) + 2 * (*p6)
+			- 1 * (*p1) + 0 * (*p2) + 1 * (*p3);
+
+		sy = 1 * (*p7) + 2 * (*p8) + 1 * (*p9)
+			+ 0 * (*p4) + 0 * (*p5) + 0 * (*p6)
+			- 1 * (*p1) - 2 * (*p2) - 1 * (*p3);
+
+		M = abs(sx) + abs(sy); //easy approximation of sqrt(sx^2 +sy^2)
+		if (M > 255) M = 255; //check for overflow
+
+		*p_mag = M;
+
+		p1++; p2++; p3++; p4++; p5++; p6++; p7++; p8++;
+		p9++; p++; p_mag++;
+	}
+
+	p_mag = mag.pdata;
+	size = (i4byte)height*width - 1;
+
+	for (int i = 1; i < width; i++)
+	{
+		p_mag[i] = p_mag[i + width]; //bottom
+		p_mag[size - i] = p_mag[size - width - i]; //top
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		p_mag[i*width] = p_mag[i*width + 1]; //left
+		p_mag[i*width + width - 1] = p_mag[i*width + width - 2]; //right
+	}
+
+	copy(mag, image_in); //returns back to original format
+
+	free_image(temp);
+	free_image(mag);
+	
+	return 0;
+}
 

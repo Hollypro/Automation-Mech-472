@@ -46,20 +46,22 @@ int load_rgb_image(char *file_name, image &a);
 int allocate_image(image &a);
 
 int free_image(image &a);
+
 //	***Our functions***
 
 int setup(); //setup camera, images, can add more
 
-int activate_process(); // process image initialization
-// executed at program startup before image acquisition takes place
-
 int process_image(); // process each incoming image
-
-int deactivate_process(); // process image deactivation
-// executed at program shutdown after image surrender takes place
 
 int rgb_detection(image rgb_in, image &rgb_out); // basic script to detect RGB and grey everything out
 
 int shutdown(); //deallocate cameras, images, --opposite of setup()--
+
+int sobel(image grey_in, image &mag, image &theta);
+
+int sobel(image grey_in, image &mag);
+
+int sobel(image &rgb_in);
+
 
 #endif
