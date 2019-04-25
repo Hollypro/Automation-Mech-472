@@ -1,0 +1,90 @@
+﻿Build started 2019-04-25 1:01:35 AM.
+     1>Project "C:\Users\Curtis\Desktop\School\Mech 472\New folder (2)\Program1\program.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D CONSOLE_IO /D _VC80_UPGRADE=0x0600 /D _MBCS /GF /Gm- /EHsc /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt process_image.cpp program.cpp setup_shutdown.cpp timer.cpp vision.cpp
+         process_image.cpp
+     1>c:\users\curtis\desktop\school\mech 472\new folder (2)\program1\global_variables.h(9): error C2146: syntax error : missing ';' before identifier 'rgb_nozzle'
+     1>c:\users\curtis\desktop\school\mech 472\new folder (2)\program1\global_variables.h(9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>process_image.cpp(12): error C2146: syntax error : missing ';' before identifier 'rgb_in'
+     1>process_image.cpp(12): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>process_image.cpp(33): error C2146: syntax error : missing ')' before identifier 'rgb_in'
+     1>process_image.cpp(33): error C2059: syntax error : ')'
+     1>process_image.cpp(35): error C2143: syntax error : missing ';' before '{'
+     1>process_image.cpp(35): error C2447: '{' : missing function header (old-style formal list?)
+         program.cpp
+     1>program.cpp(25): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(131) : see declaration of 'getch'
+     1>program.cpp(38): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _kbhit. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(133) : see declaration of 'kbhit'
+     1>program.cpp(39): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(131) : see declaration of 'getch'
+     1>program.cpp(47): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(131) : see declaration of 'getch'
+         setup_shutdown.cpp
+     1>c:\users\curtis\desktop\school\mech 472\new folder (2)\program1\global_variables.h(9): error C2146: syntax error : missing ';' before identifier 'rgb_nozzle'
+     1>c:\users\curtis\desktop\school\mech 472\new folder (2)\program1\global_variables.h(9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>setup_shutdown.cpp(13): error C3861: 'activate_camera': identifier not found
+     1>setup_shutdown.cpp(14): error C3861: 'activate_camera': identifier not found
+     1>setup_shutdown.cpp(16): error C2228: left of '.width' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(17): error C2228: left of '.height' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(18): error C2228: left of '.type' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(18): error C2065: 'RGB_IMAGE' : undeclared identifier
+     1>setup_shutdown.cpp(20): error C2228: left of '.width' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(21): error C2228: left of '.height' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(22): error C2228: left of '.type' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(22): error C2065: 'RGB_IMAGE' : undeclared identifier
+     1>setup_shutdown.cpp(24): error C2228: left of '.width' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(25): error C2228: left of '.height' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(26): error C2228: left of '.type' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(26): error C2065: 'GREY_IMAGE' : undeclared identifier
+     1>setup_shutdown.cpp(28): error C2228: left of '.width' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(29): error C2228: left of '.height' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(30): error C2228: left of '.type' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(30): error C2065: 'GREY_IMAGE' : undeclared identifier
+     1>setup_shutdown.cpp(32): error C2228: left of '.width' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(33): error C2228: left of '.height' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(34): error C2228: left of '.type' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(34): error C2065: 'LABEL_IMAGE' : undeclared identifier
+     1>setup_shutdown.cpp(36): error C2228: left of '.width' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(37): error C2228: left of '.height' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(38): error C2228: left of '.type' must have class/struct/union
+                 type is 'int'
+     1>setup_shutdown.cpp(38): error C2065: 'LABEL_IMAGE' : undeclared identifier
+     1>setup_shutdown.cpp(40): error C3861: 'allocate_image': identifier not found
+     1>setup_shutdown.cpp(41): error C3861: 'allocate_image': identifier not found
+     1>setup_shutdown.cpp(42): error C3861: 'allocate_image': identifier not found
+     1>setup_shutdown.cpp(43): error C3861: 'allocate_image': identifier not found
+     1>setup_shutdown.cpp(44): error C3861: 'allocate_image': identifier not found
+     1>setup_shutdown.cpp(45): error C3861: 'allocate_image': identifier not found
+     1>setup_shutdown.cpp(54): error C3861: 'free_image': identifier not found
+     1>setup_shutdown.cpp(55): error C3861: 'free_image': identifier not found
+     1>setup_shutdown.cpp(56): error C3861: 'free_image': identifier not found
+     1>setup_shutdown.cpp(57): error C3861: 'free_image': identifier not found
+     1>setup_shutdown.cpp(58): error C3861: 'free_image': identifier not found
+     1>setup_shutdown.cpp(59): error C3861: 'free_image': identifier not found
+     1>setup_shutdown.cpp(61): error C3861: 'deactivate_cameras': identifier not found
+         timer.cpp
+         vision.cpp
+         Generating Code...
+     1>Done Building Project "C:\Users\Curtis\Desktop\School\Mech 472\New folder (2)\Program1\program.vcxproj" (Rebuild target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:04.29
