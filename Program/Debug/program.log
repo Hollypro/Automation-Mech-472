@@ -1,14 +1,29 @@
-﻿Build started 2019-04-25 2:58:48 PM.
+﻿Build started 2019-04-25 8:11:35 PM.
      1>Project "C:\Users\Curtis\Desktop\School\Mech 472\Project - Copy\Program\program.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D CONSOLE_IO /D _VC80_UPGRADE=0x0600 /D _MBCS /GF /Gm- /EHsc /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt program.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D CONSOLE_IO /D _VC80_UPGRADE=0x0600 /D _MBCS /GF /Gm- /EHsc /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt process_image.cpp program.cpp
+         process_image.cpp
+     1>process_image.cpp(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>process_image.cpp(74): warning C4244: '=' : conversion from 'double' to 'ibyte', possible loss of data
+     1>process_image.cpp(75): warning C4244: '*=' : conversion from 'double' to 'ibyte', possible loss of data
+     1>process_image.cpp(140): warning C4018: '<' : signed/unsigned mismatch
+     1>process_image.cpp(109): warning C4101: 'i' : unreferenced local variable
+     1>process_image.cpp(109): warning C4101: 'j' : unreferenced local variable
+     1>process_image.cpp(237): warning C4018: '<' : signed/unsigned mismatch
+     1>process_image.cpp(208): warning C4101: 'i' : unreferenced local variable
+     1>process_image.cpp(208): warning C4101: 'j' : unreferenced local variable
+     1>process_image.cpp(324): warning C4018: '<' : signed/unsigned mismatch
+     1>process_image.cpp(288): warning C4101: 'i' : unreferenced local variable
+     1>process_image.cpp(288): warning C4101: 'j' : unreferenced local variable
+     1>process_image.cpp(426): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
          program.cpp
-     1>program.cpp(32): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _kbhit. See online help for details.
+     1>program.cpp(43): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _kbhit. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(133) : see declaration of 'kbhit'
-     1>program.cpp(33): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+     1>program.cpp(47): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(131) : see declaration of 'getch'
-     1>program.cpp(41): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+     1>program.cpp(61): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(131) : see declaration of 'getch'
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\program.exe" /INCREMENTAL /NOLOGO image_transfer3.lib odbc32.lib odbccp32.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcd /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:".\Debug\program.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\program.lib" /MACHINE:X86 /SAFESEH .\Debug\global_variables.obj
          .\Debug\process_image.obj
@@ -21,4 +36,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.84
+Time Elapsed 00:00:03.16

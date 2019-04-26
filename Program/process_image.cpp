@@ -16,6 +16,9 @@ extern double t_sample;
 int process_image()
 // this function is called continuously from the call back function
 {
+//	find_centroid(grey)
+//	find_edge(rgb)
+	
 	return 0;
 }
 
@@ -360,3 +363,87 @@ int sobel(image &image_in)
 	return 0;
 }
 
+int find_centroid(image &grey_in, double ic[1000], double jc[1000])
+//takes grey image, filters and finds centroids
+//puts centroid positions into array
+//need to calibrate filters and threshold value depending on lighting
+{
+	// error checks
+	if (grey_in.type != GREY_IMAGE)
+	{
+		cout << "ERROR:find_centroid--invalid image type\n";
+		return 1;
+	}
+	int nlabels = 0;
+	int thresh = 147;
+	int i = 0;
+
+	image grey;
+	grey.height = height;
+	grey.width = width;
+	grey.type = GREY_IMAGE;
+	allocate_image(grey);
+
+	lowpass_filter(grey_nozzle, grey_nozzle);
+	lowpass_filter(grey_nozzle, grey_nozzle);
+	scale(grey_nozzle, grey_nozzle);
+	/*		while (ch != 't') //useful for calibrating threshold value (thresh)
+	{
+	if (ch == 'p') thresh += 10;
+	if (ch == 'l') thresh -= 10;
+	cout << "thresh = " << thresh << "\n";
+	threshold(grey_nozzle, grey_front, thresh);
+	copy(grey_front, rgb_nozzle);
+	view_rgb_image(rgb_nozzle);
+	ch = getch();
+	}
+	copy(grey_front, grey_nozzle);
+	*/
+	threshold(grey_nozzle, grey_nozzle, thresh);
+	for (i = 0; i < 2; i++)	//calibrate the 2
+	{
+		copy(grey_nozzle, grey);
+		dialate(grey, grey_nozzle);
+	}
+	for (i = 0; i < 2; i++) //calibrate the 2
+	{
+		copy(grey_nozzle, grey);
+		erode(grey, grey_nozzle);
+	}
+	invert(grey_nozzle, grey_nozzle);
+	label_image(grey_nozzle, label_nozzle, nlabels);
+
+	if (nlabels > 900)
+	{
+		cout << "ERROR:find_centroid--nlabels too large\n";
+		return 1;
+	}
+
+	for (i = 1; i <= nlabels; i++)
+	{
+		centroid(grey_nozzle, label_nozzle, i, ic[i], jc[i]);
+//		cout << ic[i] << "\t" << jc[i] << "\t" << i << "\n"; //for debugging
+		draw_point(grey_nozzle, ic[i], jc[i], 125);
+	}
+
+	free_image(grey);
+	return 0;
+}
+
+int find_edge(image &rgb_in)
+//takes rgb image and runs through sobel and then creates binary image
+//TODO: scan binary image to find edge points and save in arrays
+{
+	//erro checks
+	if (rgb_in.type != RGB_IMAGE)
+	{
+		cout << "ERROR:find_edge--invalid image type\n";
+			return 1;
+	}
+
+	sobel(rgb_nozzle); //edge detection
+	copy(rgb_nozzle, grey_nozzle); //need grey for threshold
+	threshold(grey_nozzle, grey_nozzle, 250); //removes noise
+	copy(grey_nozzle, rgb_nozzle); //need rgb for view
+	return 0;
+}

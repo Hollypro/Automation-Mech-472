@@ -63,5 +63,6 @@ int shutdown()
 	deactivate_cameras();
 
 	system("TASKKILL /F /IM image_view.exe 1>NULL");
+
 	return 0;
 }
