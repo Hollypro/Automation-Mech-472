@@ -82,6 +82,6 @@ int find_centroid(camera &cam);
 
 int find_edge(camera &cam);
 
-int get_image(camera &cam,  char ch[]);
+int get_image(camera &cam,  char ch[] = "live");
 
 #endif

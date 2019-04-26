@@ -461,10 +461,10 @@ int find_edge(camera &cam)
 	return 0;
 }
 
-int get_image(camera &cam, char ch[] = "live")
+int get_image(camera &cam, char ch[])
 //gets camera image from either specified file or live feed
 {
-	if (ch == "live") acquire_image(cam.rgb, cam.num);
+	if (ch == "live") acquire_image(cam.rgb, cam.num); //default ch
 	else load_rgb_image(ch, cam.rgb);
 
 	copy(cam.rgb, cam.grey);

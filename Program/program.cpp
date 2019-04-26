@@ -30,7 +30,9 @@ int main(int argc, char* argv[])
 	while(1) 
 	{
 		get_image(nozzle, "a.bmp"); //if no file name specified gets live feed
-		
+//		get_image(nozzle);
+
+
 		if (swap == 0) find_centroid(nozzle);
 		else find_edge(nozzle);
 
