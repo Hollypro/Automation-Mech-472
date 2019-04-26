@@ -63,7 +63,7 @@ int sobel(image grey_in, image &mag);
 
 int sobel(image &rgb_in);
 
-int find_centroid(image &grey_in, double ic[1000], double jc[1000]);
+int find_centroid(image &grey_in, image &label_in, double ic[1000], double jc[1000]);
 
 int find_edge(image &rgb_in);
 

@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 		if (swap == 0)
 		{
 			copy(rgb_nozzle, grey_nozzle); //need grey for find_centroid
-			find_centroid(grey_nozzle, ic_nozzle, jc_nozzle);
+			find_centroid(grey_nozzle, label_nozzle, ic_nozzle, jc_nozzle);
 			copy(grey_nozzle, rgb_nozzle); //need rgb for view
 		}
 		else
