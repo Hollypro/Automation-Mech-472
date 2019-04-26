@@ -26,10 +26,13 @@ typedef struct {
 // define a camera structure
 typedef struct
 {
-	int num;
-	int nlabels;
-	double ic[1000];
-	double jc[1000];
+	int num; //camera identifying number (for activate)
+	int nlabels; //number of objects in image (found in label_image)
+	double ic[1000]; //objects centroid location i coordinate
+	double jc[1000]; //objects centroid location j coordinate
+//	double ie[1000][10000]; //objects edge i coordinates [image ident][i-coordinate]
+//	double je[1000][10000]; //objects edge j coordinates [imageident][j-coordinate]
+//TODO:ie and je too big, may need to look at another way than storing all edge locations
 	image rgb;
 	image grey;
 	image label;
@@ -75,8 +78,10 @@ int sobel(image grey_in, image &mag);
 
 int sobel(image &rgb_in);
 
-int find_centroid(image &grey_in, image &label_in, double ic[1000], double jc[1000]);
+int find_centroid(camera &cam);
 
-int find_edge(image &rgb_in);
+int find_edge(camera &cam);
+
+int get_image(camera &cam,  char ch[]);
 
 #endif

@@ -364,13 +364,13 @@ int sobel(image &image_in)
 	return 0;
 }
 
-int find_centroid(image &grey_in, image &label_in, double ic[1000], double jc[1000])
+int find_centroid(camera &cam)
 //takes grey image, filters and finds centroids
 //puts centroid positions into array
 //need to calibrate filters and threshold value depending on lighting
 {
 	// error checks
-	if (grey_in.type != GREY_IMAGE)
+	if (cam.grey.type != GREY_IMAGE)
 	{
 		cout << "ERROR:find_centroid--invalid image type\n";
 		return 1;
@@ -385,55 +385,56 @@ int find_centroid(image &grey_in, image &label_in, double ic[1000], double jc[10
 	grey.type = GREY_IMAGE;
 	allocate_image(grey);
 
-	lowpass_filter(grey_in, grey_in);
-	lowpass_filter(grey_in, grey_in);
-	scale(grey_in, grey_in);
+	lowpass_filter(cam.grey, cam.grey);
+	lowpass_filter(cam.grey, cam.grey);
+	scale(cam.grey, cam.grey);
 	/*		while (ch != 't') //useful for calibrating threshold value (thresh)
 	{
 	if (ch == 'p') thresh += 10;
 	if (ch == 'l') thresh -= 10;
 	cout << "thresh = " << thresh << "\n";
-	threshold(grey_in, grey, thresh);
+	threshold(cam.grey, grey, thresh);
 	copy(grey, rgb_nozzle);
 	view_rgb_image(rgb_nozzle);
 	ch = getch();
 	}
-	copy(grey, grey_in);
+	copy(grey, cam.grey);
 	*/
-	threshold(grey_in, grey_in, thresh);
+	threshold(cam.grey, cam.grey, thresh);
 	for (i = 0; i < 2; i++)	//calibrate the 2
 	{
-		copy(grey_in, grey);
-		dialate(grey, grey_in);
+		copy(cam.grey, grey);
+		dialate(grey, cam.grey);
 	}
 	for (i = 0; i < 2; i++) //calibrate the 2
 	{
-		copy(grey_in, grey);
-		erode(grey, grey_in);
+		copy(cam.grey, grey);
+		erode(grey, cam.grey);
 	}
-	invert(grey_in, grey_in);
-	label_image(grey_in, label_in, nlabels);
+	invert(cam.grey, cam.grey);
+	label_image(cam.grey, cam.label, cam.nlabels);
 
-	if (nlabels > 900)
+	if (cam.nlabels > 900)
 	{
 		cout << "ERROR:find_centroid--nlabels too large\n";
 		return 1;
 	}
 
-	for (i = 1; i <= nlabels; i++)
+	for (i = 1; i <= cam.nlabels; i++)
 	{
-		centroid(grey_in, label_in, i, ic[i], jc[i]);
+		centroid(cam.grey, cam.label, i, cam.ic[i], cam.jc[i]);
 //		cout << ic[i] << "\t" << jc[i] << "\t" << i << "\n"; //for debugging
-		draw_point(grey_in, ic[i], jc[i], 125);
+		draw_point(cam.grey, cam.ic[i], cam.jc[i], 125);
 	}
+
+	copy(cam.grey, cam.rgb); //need rgb for view
 
 	free_image(grey);
 	return 0;
 }
 
-int find_edge(image &rgb_in)
+int find_edge(camera &cam)
 //takes rgb image and runs through sobel and then creates binary image
-//TODO: scan binary image to find edge points and save in arrays
 {
 	//erro checks
 	if (rgb_in.type != RGB_IMAGE)
@@ -442,18 +443,32 @@ int find_edge(image &rgb_in)
 			return 1;
 	}
 
-	image grey;
-	grey.height = height;
-	grey.width = width;
-	grey.type = GREY_IMAGE;
-	allocate_image(grey);
+	sobel(cam.rgb); //edge detection
+	copy(cam.rgb, cam.grey); //need grey for threshold
+	threshold(cam.grey, cam.grey, 250); //removes noise
+	copy(cam.grey, cam.rgb); //need rgb for view
 
-	sobel(rgb_in); //edge detection
-	copy(rgb_in, grey); //need grey for threshold
-	threshold(grey, grey, 250); //removes noise
-	copy(grey, rgb_in); //need rgb for view
+	//TODO: detect and store location of edges of each image found
+	for (int i = 1; i <= cam.nlabels; i++)
+	{
+		//find object i marked on cam.label
+		//search for white pixels on grey image in labeled area
+		//if white save edge locations to cam.ie and cam.je
+		//ie,je too big may need to look into alternative
+	}
 
-	free_image(grey);
 
 	return 0;
 }
+
+int get_image(camera &cam, char ch[] = "live")
+//gets camera image from either specified file or live feed
+{
+	if (ch == "live") acquire_image(cam.rgb, cam.num);
+	else load_rgb_image(ch, cam.rgb);
+
+	copy(cam.rgb, cam.grey);
+
+	return 0;
+}
+

@@ -29,19 +29,11 @@ int main(int argc, char* argv[])
 
 	while(1) 
 	{
-//		acquire_image(nozzle.rgb, nozzle_camera);
-		load_rgb_image("a.bmp", nozzle.rgb); //helps for troubleshooting
+		get_image(nozzle, "a.bmp"); //if no file name specified gets live feed
+		
+		if (swap == 0) find_centroid(nozzle);
+		else find_edge(nozzle);
 
-		if (swap == 0)
-		{
-			copy(nozzle.rgb, nozzle.grey); //need grey for find_centroid
-			find_centroid(nozzle.grey, nozzle.label, nozzle.ic, nozzle.jc);
-			copy(nozzle.grey, nozzle.rgb); //need rgb for view
-		}
-		else
-		{
-			find_edge(nozzle.rgb);
-		}
 		view_rgb_image(nozzle.rgb);
 
 		// press 'x' key to end program
