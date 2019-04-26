@@ -3,6 +3,7 @@
 #include <conio.h>
 #include "timer.h"
 #include "global_variables.h"
+#include "image_transfer3.h"
 #include "vision.h";
 
 using namespace std;
@@ -447,10 +448,10 @@ int find_edge(image &rgb_in)
 	grey.type = GREY_IMAGE;
 	allocate_image(grey);
 
-	sobel(rgb_nozzle); //edge detection
-	copy(rgb_nozzle, grey); //need grey for threshold
+	sobel(rgb_in); //edge detection
+	copy(rgb_in, grey); //need grey for threshold
 	threshold(grey, grey, 250); //removes noise
-	copy(grey, rgb_nozzle); //need rgb for view
+	copy(grey, rgb_in); //need rgb for view
 
 	free_image(grey);
 

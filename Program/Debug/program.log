@@ -1,31 +1,29 @@
-﻿Build started 2019-04-26 10:50:03 AM.
-     1>Project "C:\Users\Curtis\Desktop\School\Mech 472\Project - Copy (2)\Program\program.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 2019-04-26 11:25:17 AM.
+     1>Project "C:\Users\Curtis\Desktop\School\Mech 472\Project - Copy (2)\Program\program.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D CONSOLE_IO /D _VC80_UPGRADE=0x0600 /D _MBCS /GF /Gm- /EHsc /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt global_variables.cpp process_image.cpp program.cpp setup_shutdown.cpp timer.cpp vision.cpp
-         global_variables.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D CONSOLE_IO /D _VC80_UPGRADE=0x0600 /D _MBCS /GF /Gm- /EHsc /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt process_image.cpp program.cpp setup_shutdown.cpp vision.cpp
          process_image.cpp
-     1>process_image.cpp(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-     1>process_image.cpp(74): warning C4244: '=' : conversion from 'double' to 'ibyte', possible loss of data
-     1>process_image.cpp(75): warning C4244: '*=' : conversion from 'double' to 'ibyte', possible loss of data
-     1>process_image.cpp(140): warning C4018: '<' : signed/unsigned mismatch
-     1>process_image.cpp(109): warning C4101: 'i' : unreferenced local variable
-     1>process_image.cpp(109): warning C4101: 'j' : unreferenced local variable
-     1>process_image.cpp(237): warning C4018: '<' : signed/unsigned mismatch
-     1>process_image.cpp(208): warning C4101: 'i' : unreferenced local variable
-     1>process_image.cpp(208): warning C4101: 'j' : unreferenced local variable
-     1>process_image.cpp(324): warning C4018: '<' : signed/unsigned mismatch
-     1>process_image.cpp(288): warning C4101: 'i' : unreferenced local variable
-     1>process_image.cpp(288): warning C4101: 'j' : unreferenced local variable
-     1>process_image.cpp(426): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>process_image.cpp(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>process_image.cpp(75): warning C4244: '=' : conversion from 'double' to 'ibyte', possible loss of data
+     1>process_image.cpp(76): warning C4244: '*=' : conversion from 'double' to 'ibyte', possible loss of data
+     1>process_image.cpp(141): warning C4018: '<' : signed/unsigned mismatch
+     1>process_image.cpp(110): warning C4101: 'i' : unreferenced local variable
+     1>process_image.cpp(110): warning C4101: 'j' : unreferenced local variable
+     1>process_image.cpp(238): warning C4018: '<' : signed/unsigned mismatch
+     1>process_image.cpp(209): warning C4101: 'i' : unreferenced local variable
+     1>process_image.cpp(209): warning C4101: 'j' : unreferenced local variable
+     1>process_image.cpp(325): warning C4018: '<' : signed/unsigned mismatch
+     1>process_image.cpp(289): warning C4101: 'i' : unreferenced local variable
+     1>process_image.cpp(289): warning C4101: 'j' : unreferenced local variable
+     1>process_image.cpp(427): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
          program.cpp
-     1>program.cpp(43): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _kbhit. See online help for details.
+     1>program.cpp(48): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _kbhit. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(133) : see declaration of 'kbhit'
-     1>program.cpp(47): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+     1>program.cpp(52): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(131) : see declaration of 'getch'
-     1>program.cpp(55): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+     1>program.cpp(61): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\conio.h(131) : see declaration of 'getch'
          setup_shutdown.cpp
-         timer.cpp
          vision.cpp
          Generating Code...
        Link:
@@ -36,8 +34,8 @@
          .\Debug\timer.obj
          .\Debug\vision.obj
          program.vcxproj -> C:\Users\Curtis\Desktop\School\Mech 472\Project - Copy (2)\Program\.\Debug\program.exe
-     1>Done Building Project "C:\Users\Curtis\Desktop\School\Mech 472\Project - Copy (2)\Program\program.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "C:\Users\Curtis\Desktop\School\Mech 472\Project - Copy (2)\Program\program.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:14.89
+Time Elapsed 00:00:05.27

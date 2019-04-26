@@ -17,27 +17,32 @@ int main(int argc, char* argv[])
 {  
 	char ch = 'a';
 	int swap = 0;
+	camera nozzle, front;
 
-	setup();
+	nozzle.num = 1; //calibrate
+	front.num = 0; //calibrate
+
+	setup(nozzle);
+	setup(front);
 
 	cout<<("\npress x to exit\n");
 
 	while(1) 
 	{
-//		acquire_image(rgb_nozzle, nozzle_camera);
-		load_rgb_image("a.bmp", rgb_nozzle); //helps for troubleshooting
+//		acquire_image(nozzle.rgb, nozzle_camera);
+		load_rgb_image("a.bmp", nozzle.rgb); //helps for troubleshooting
 
 		if (swap == 0)
 		{
-			copy(rgb_nozzle, grey_nozzle); //need grey for find_centroid
-			find_centroid(grey_nozzle, label_nozzle, ic_nozzle, jc_nozzle);
-			copy(grey_nozzle, rgb_nozzle); //need rgb for view
+			copy(nozzle.rgb, nozzle.grey); //need grey for find_centroid
+			find_centroid(nozzle.grey, nozzle.label, nozzle.ic, nozzle.jc);
+			copy(nozzle.grey, nozzle.rgb); //need rgb for view
 		}
 		else
 		{
-			find_edge(rgb_nozzle);
+			find_edge(nozzle.rgb);
 		}
-		view_rgb_image(rgb_nozzle);
+		view_rgb_image(nozzle.rgb);
 
 		// press 'x' key to end program
 		if (kbhit()) 
@@ -49,7 +54,8 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	shutdown();
+	shutdown(front);
+	shutdown(nozzle);
 	
 	cout<<("\n\ndone.\n");
 	getch();
