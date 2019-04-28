@@ -33,9 +33,15 @@
     <ClCompile Include="global_variables.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gcode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="global_variables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gcode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

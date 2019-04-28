@@ -5,6 +5,7 @@
 #include "global_variables.h"
 #include "image_transfer3.h"
 #include "vision.h";
+#include "gcode.h"
 
 using namespace std;
 
@@ -462,7 +463,7 @@ int get_image(camera &cam, char ch[])
 	return 0;
 }
 
-int trace_object(camera cam,int obj)
+int trace_object(gcode printer, camera cam,int obj)
 {
 	//error checks
 	if (obj<1 || obj>cam.nlabels)
@@ -473,7 +474,7 @@ int trace_object(camera cam,int obj)
 
 	ibyte *plab, *pgrey;
 	i4byte size;
-	double ei, ej;
+	double ei, ej, xyz[3];
 	int edge;
 
 	copy(cam.rgb, cam.grey);
@@ -489,7 +490,14 @@ int trace_object(camera cam,int obj)
 		{
 			ei = i%cam.grey.width;
 			ej = i - ei*cam.grey.width;
-			//TODO: send ei,ej g-code to printer
+			
+			xyz[0] = gcode_convert(ei); //x
+			xyz[1] = gcode_convert(ej); //y
+			xyz[2] = printer.Get_Z(); //z
+			printer.Set_Position(xyz);
+
+			printer.Move_Down(1); //make mark
+			printer.Move_Up(1); // lift up to move
 		}
 		plab++; pgrey++;
 	}
@@ -497,3 +505,10 @@ int trace_object(camera cam,int obj)
 	return 0;
 }
 
+double gcode_convert(double pixel)
+// converts pixel coordinate into gcode coordinate
+{
+	double gcode = 0.0;
+	//TODO: convert pixel to gcode positions based on camera height/angle
+	return gcode;
+}

@@ -9,15 +9,18 @@
 #include "image_transfer3.h"
 #include "vision.h"
 #include "timer.h"
-#include"global_variables.h"
+#include "global_variables.h"
+#include "gcode.h"
 
 using namespace std;
 
 int main(int argc, char* argv[])
 {  
 	char ch = 'a';
-	int swap = 0;
+	int i, swap = 0;
+	double xyz[3];
 	camera nozzle, front;
+	gcode printer;
 
 	nozzle.num = 0; //calibrate
 	front.num = 1; //calibrate
@@ -33,8 +36,46 @@ int main(int argc, char* argv[])
 //		get_image(nozzle);
 
 
-		if (swap == 0) find_centroid(nozzle);
-		else find_edge(nozzle);
+		if (swap == 0) // mark centroids
+		{
+			find_centroid(nozzle);
+			
+			xyz[0] = printer.Get_X(); //x
+			xyz[1] = printer.Get_Y(); //y
+			xyz[2] = part_height; //calibrate to part height
+
+			if (xyz[2] == 0.5 || xyz[2] == 1) //reminder incase we forget to change into gcode
+			{								// so that printer is not run too low
+				cout << "ERROR: program--part_height not converted to gcode\n";
+				cout << "Press c to continue anyway\n";
+				ch = getch();
+				if (ch != 'c') return 1; //exits program
+			}
+			printer.Set_Position(xyz);
+
+			printer.Move_Up(1); //lift above part height for movement
+
+			for (i = 1; i <= nozzle.nlabels; i++)
+			{
+				
+
+				xyz[0] = gcode_convert(nozzle.ic[i]); //x
+				xyz[1] = gcode_convert(nozzle.jc[i]); //y
+				xyz[2] = printer.Get_Z(); //z
+				printer.Set_Position(xyz); //send gcode
+
+				printer.Move_Down(1); //make mark
+				printer.Move_Up(1); // lift up to move
+			}
+		}
+		else
+		{
+			find_edge(nozzle);
+			for (int i = 1; i <= nozzle.nlabels; i++)
+			{
+				trace_object(printer, nozzle, i);
+			}
+		}
 
 		view_rgb_image(nozzle.rgb);
 
