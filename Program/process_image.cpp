@@ -448,16 +448,6 @@ int find_edge(camera &cam)
 	threshold(cam.grey, cam.grey, 250); //removes noise
 	copy(cam.grey, cam.rgb); //need rgb for view
 
-	//TODO: detect and store location of edges of each image found
-	for (int i = 1; i <= cam.nlabels; i++)
-	{
-		//find object i marked on cam.label
-		//search for white pixels on grey image in labeled area
-		//if white save edge locations to cam.ie and cam.je
-		//ie,je too big may need to look into alternative
-	}
-
-
 	return 0;
 }
 
@@ -468,6 +458,41 @@ int get_image(camera &cam, char ch[])
 	else load_rgb_image(ch, cam.rgb);
 
 	copy(cam.rgb, cam.grey);
+
+	return 0;
+}
+
+int trace_object(camera cam,int obj)
+{
+	//error checks
+	if (obj<1 || obj>cam.nlabels)
+	{
+		cout << "ERROR:trace_object--obj not defined\n";
+		return 1;
+	}
+
+	ibyte *plab, *pgrey;
+	i4byte size;
+	double ei, ej;
+	int edge;
+
+	copy(cam.rgb, cam.grey);
+
+	size = height*width;
+
+	plab = cam.label.pdata;
+	pgrey = cam.grey.pdata;
+
+	for (int i = 0; i < size; i++)
+	{
+		if (*plab == obj && *pgrey == 255) //if object looking for and if white (edge)
+		{
+			ei = i%cam.grey.width;
+			ej = i - ei*cam.grey.width;
+			//TODO: send ei,ej g-code to printer
+		}
+		plab++; pgrey++;
+	}
 
 	return 0;
 }

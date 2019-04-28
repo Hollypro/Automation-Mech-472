@@ -30,9 +30,6 @@ typedef struct
 	int nlabels; //number of objects in image (found in label_image)
 	double ic[1000]; //objects centroid location i coordinate
 	double jc[1000]; //objects centroid location j coordinate
-//	double ie[1000][10000]; //objects edge i coordinates [image ident][i-coordinate]
-//	double je[1000][10000]; //objects edge j coordinates [imageident][j-coordinate]
-//TODO:ie and je too big, may need to look at another way than storing all edge locations
 	image rgb;
 	image grey;
 	image label;
@@ -83,5 +80,7 @@ int find_centroid(camera &cam);
 int find_edge(camera &cam);
 
 int get_image(camera &cam,  char ch[] = "live");
+
+int trace_object(camera cam, int obj);
 
 #endif

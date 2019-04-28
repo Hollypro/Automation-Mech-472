@@ -19,11 +19,11 @@ int main(int argc, char* argv[])
 	int swap = 0;
 	camera nozzle, front;
 
-	nozzle.num = 1; //calibrate
-	front.num = 0; //calibrate
+	nozzle.num = 0; //calibrate
+	front.num = 1; //calibrate
 
 	setup(nozzle);
-	setup(front);
+//	setup(front);
 
 	cout<<("\npress x to exit\n");
 
@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	shutdown(front);
+//	shutdown(front);
 	shutdown(nozzle);
 	
 	cout<<("\n\ndone.\n");
