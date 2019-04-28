@@ -3,6 +3,7 @@
 #include <conio.h>
 #include "timer.h"
 #include "global_variables.h"
+#include "image_transfer3.h"
 #include "vision.h";
 
 using namespace std;
@@ -16,6 +17,9 @@ extern double t_sample;
 int process_image()
 // this function is called continuously from the call back function
 {
+//	find_centroid(grey)
+//	find_edge(rgb)
+	
 	return 0;
 }
 
@@ -357,6 +361,139 @@ int sobel(image &image_in)
 	free_image(temp);
 	free_image(mag);
 	
+	return 0;
+}
+
+int find_centroid(camera &cam)
+//takes grey image, filters and finds centroids
+//puts centroid positions into array
+//need to calibrate filters and threshold value depending on lighting
+{
+	// error checks
+	if (cam.grey.type != GREY_IMAGE)
+	{
+		cout << "ERROR:find_centroid--invalid image type\n";
+		return 1;
+	}
+	int nlabels = 0;
+	int thresh = 147;
+	int i = 0;
+
+	image grey;
+	grey.height = height;
+	grey.width = width;
+	grey.type = GREY_IMAGE;
+	allocate_image(grey);
+
+	lowpass_filter(cam.grey, cam.grey);
+	lowpass_filter(cam.grey, cam.grey);
+	scale(cam.grey, cam.grey);
+	/*		while (ch != 't') //useful for calibrating threshold value (thresh)
+	{
+	if (ch == 'p') thresh += 10;
+	if (ch == 'l') thresh -= 10;
+	cout << "thresh = " << thresh << "\n";
+	threshold(cam.grey, grey, thresh);
+	copy(grey, rgb_nozzle);
+	view_rgb_image(rgb_nozzle);
+	ch = getch();
+	}
+	copy(grey, cam.grey);
+	*/
+	threshold(cam.grey, cam.grey, thresh);
+	for (i = 0; i < 2; i++)	//calibrate the 2
+	{
+		copy(cam.grey, grey);
+		dialate(grey, cam.grey);
+	}
+	for (i = 0; i < 2; i++) //calibrate the 2
+	{
+		copy(cam.grey, grey);
+		erode(grey, cam.grey);
+	}
+	invert(cam.grey, cam.grey);
+	label_image(cam.grey, cam.label, cam.nlabels);
+
+	if (cam.nlabels > 900)
+	{
+		cout << "ERROR:find_centroid--nlabels too large\n";
+		return 1;
+	}
+
+	for (i = 1; i <= cam.nlabels; i++)
+	{
+		centroid(cam.grey, cam.label, i, cam.ic[i], cam.jc[i]);
+//		cout << ic[i] << "\t" << jc[i] << "\t" << i << "\n"; //for debugging
+		draw_point(cam.grey, cam.ic[i], cam.jc[i], 125);
+	}
+
+	copy(cam.grey, cam.rgb); //need rgb for view
+
+	free_image(grey);
+	return 0;
+}
+
+int find_edge(camera &cam)
+//takes rgb image and runs through sobel and then creates binary image
+{
+	//erro checks
+	if (rgb_in.type != RGB_IMAGE)
+	{
+		cout << "ERROR:find_edge--invalid image type\n";
+			return 1;
+	}
+
+	sobel(cam.rgb); //edge detection
+	copy(cam.rgb, cam.grey); //need grey for threshold
+	threshold(cam.grey, cam.grey, 250); //removes noise
+	copy(cam.grey, cam.rgb); //need rgb for view
+
+	return 0;
+}
+
+int get_image(camera &cam, char ch[])
+//gets camera image from either specified file or live feed
+{
+	if (ch == "live") acquire_image(cam.rgb, cam.num); //default ch
+	else load_rgb_image(ch, cam.rgb);
+
+	copy(cam.rgb, cam.grey);
+
+	return 0;
+}
+
+int trace_object(camera cam,int obj)
+{
+	//error checks
+	if (obj<1 || obj>cam.nlabels)
+	{
+		cout << "ERROR:trace_object--obj not defined\n";
+		return 1;
+	}
+
+	ibyte *plab, *pgrey;
+	i4byte size;
+	double ei, ej;
+	int edge;
+
+	copy(cam.rgb, cam.grey);
+
+	size = height*width;
+
+	plab = cam.label.pdata;
+	pgrey = cam.grey.pdata;
+
+	for (int i = 0; i < size; i++)
+	{
+		if (*plab == obj && *pgrey == 255) //if object looking for and if white (edge)
+		{
+			ei = i%cam.grey.width;
+			ej = i - ei*cam.grey.width;
+			//TODO: send ei,ej g-code to printer
+		}
+		plab++; pgrey++;
+	}
+
 	return 0;
 }
 

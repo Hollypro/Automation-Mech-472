@@ -4,64 +4,62 @@
 #include <Windows.h>
 #include "timer.h"
 #include "global_variables.h"
+#include "image_transfer3.h"
 
 using namespace std;
 
-int setup()
+unsigned int num_cams = 0; //number of open cams
+
+int setup(camera &cam)
 {
-	//ShellExecute(NULL, "open", "C:\\Users\\Curtis\\Desktop\\School\\Mech 472\\mech663_lecture12\\computer_vision\\gcode_examples_new_vision_lib\\send_G_code_example3_keyboard_control\\image_view.exe", NULL, NULL, SW_SHOWDEFAULT);
-	ShellExecute(NULL, "open", "image_view.exe", NULL, NULL, SW_SHOWDEFAULT);
+	if (num_cams == 0) //turning on first cam
+	{
+		//ShellExecute(NULL, "open", "C:\\Users\\Curtis\\Desktop\\School\\Mech 472\\mech663_lecture12\\computer_vision\\gcode_examples_new_vision_lib\\send_G_code_example3_keyboard_control\\image_view.exe", NULL, NULL, SW_SHOWDEFAULT);
+		ShellExecute(NULL, "open", "image_view.exe", NULL, NULL, SW_SHOWDEFAULT);
+	}
 
-	activate_camera(nozzle_camera, height, width);
-	activate_camera(front_camera, height, width);
+	activate_camera(cam.num, height, width);
 
-	rgb_nozzle.width = width;
-	rgb_nozzle.height = height;
-	rgb_nozzle.type = RGB_IMAGE;
+	cam.rgb.width = width;
+	cam.rgb.height = height;
+	cam.rgb.type = RGB_IMAGE;
 
-	rgb_front.width = width;
-	rgb_front.height = height;
-	rgb_front.type = RGB_IMAGE;
+	cam.grey.width = width;
+	cam.grey.height = height;
+	cam.grey.type = GREY_IMAGE;
 
-	grey_nozzle.width = width;
-	grey_nozzle.height = height;
-	grey_nozzle.type = GREY_IMAGE;
+	cam.label.width = width;
+	cam.label.height = height;
+	cam.label.type = LABEL_IMAGE;
 
-	grey_front.width = width;
-	grey_front.height = height;
-	grey_front.type = GREY_IMAGE;
+	allocate_image(cam.rgb);
+	allocate_image(cam.grey);
+	allocate_image(cam.label);
+	
 
-	label_nozzle.width = width;
-	label_nozzle.height = height;
-	label_nozzle.type = LABEL_IMAGE;
-
-	label_front.width = width;
-	label_front.height = height;
-	label_front.type = LABEL_IMAGE;
-
-	allocate_image(rgb_nozzle);
-	allocate_image(rgb_front);
-	allocate_image(grey_nozzle);
-	allocate_image(grey_front);
-	allocate_image(label_nozzle);
-	allocate_image(label_front);
-
-
-
+	num_cams++;
 	return 0;
 }
 
-int shutdown()
+int shutdown(camera &cam)
 {
-	free_image(rgb_nozzle);
-	free_image(rgb_front);
-	free_image(grey_nozzle);
-	free_image(grey_front);
-	free_image(label_nozzle);
-	free_image(label_front);
+	//error checks
+	if (num_cams == 0)
+	{
+		cout << "ERROR:shutdown--shutdown when no cams open\n";
+		return 1;
+	}
 
-	deactivate_cameras();
+	free_image(cam.rgb);
+	free_image(cam.grey);
+	free_image(cam.label);
 
-	system("TASKKILL /F /IM image_view.exe 1>NULL");
+	if (num_cams == 1) //turning off last cam
+	{
+		deactivate_cameras();
+		system("TASKKILL /F /IM image_view.exe 1>NULL");
+	}
+
+	num_cams--;
 	return 0;
 }

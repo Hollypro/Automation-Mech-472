@@ -15,27 +15,41 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {  
-	char ch;
+	char ch = 'a';
+	int swap = 0;
+	camera nozzle, front;
 
-	setup();
+	nozzle.num = 0; //calibrate
+	front.num = 1; //calibrate
+
+	setup(nozzle);
+//	setup(front);
 
 	cout<<("\npress x to exit\n");
 
-	while(1) {
+	while(1) 
+	{
+		get_image(nozzle, "a.bmp"); //if no file name specified gets live feed
+//		get_image(nozzle);
 
-		acquire_image(rgb_nozzle, nozzle_camera);
-//		load_rgb_image("a.bmp", rgb_nozzle); //helps for troubleshooting
-		sobel(rgb_nozzle);
-		view_rgb_image(rgb_nozzle);
+
+		if (swap == 0) find_centroid(nozzle);
+		else find_edge(nozzle);
+
+		view_rgb_image(nozzle.rgb);
 
 		// press 'x' key to end program
-		if (kbhit()) {
+		if (kbhit()) 
+		{
+			swap++;
+			if (swap > 1)swap = 0;
 			ch = getch();
 			if (ch == 'x') break;
 		}
 	}
 
-	shutdown();
+//	shutdown(front);
+	shutdown(nozzle);
 	
 	cout<<("\n\ndone.\n");
 	getch();

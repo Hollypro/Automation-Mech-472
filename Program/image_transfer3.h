@@ -23,6 +23,18 @@ typedef struct {
 	i2byte nlabels;  // number of labels (used for LABEL_IMAGE type)
 } image;
 
+// define a camera structure
+typedef struct
+{
+	int num; //camera identifying number (for activate)
+	int nlabels; //number of objects in image (found in label_image)
+	double ic[1000]; //objects centroid location i coordinate
+	double jc[1000]; //objects centroid location j coordinate
+	image rgb;
+	image grey;
+	image label;
+} camera;
+
 ///////
 
 int activate_camera(int cam_number, int height, int width);
@@ -49,13 +61,13 @@ int free_image(image &a);
 
 //	***Our functions***
 
-int setup(); //setup camera, images, can add more
+int setup(camera &cam); //setup camera, images, can add more
 
 int process_image(); // process each incoming image
 
 int rgb_detection(image rgb_in, image &rgb_out); // basic script to detect RGB and grey everything out
 
-int shutdown(); //deallocate cameras, images, --opposite of setup()--
+int shutdown(camera &cam); //deallocate cameras, images, --opposite of setup()--
 
 int sobel(image grey_in, image &mag, image &theta);
 
@@ -63,5 +75,12 @@ int sobel(image grey_in, image &mag);
 
 int sobel(image &rgb_in);
 
+int find_centroid(camera &cam);
+
+int find_edge(camera &cam);
+
+int get_image(camera &cam,  char ch[] = "live");
+
+int trace_object(camera cam, int obj);
 
 #endif
