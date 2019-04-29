@@ -1,7 +1,10 @@
 #include "gcode.h"
+#include <iostream> //cout
+#include <conio.h> //getch
 
 gcode::gcode(){
 	//G28 //Command to home all axes
+	//G21 //Sets units to mm
 	Position[0] = 0.0; //Default constructor brings nozzle home
 	Position[1] = 0.0;
 	Position[2] = 0.0;
@@ -36,6 +39,19 @@ void gcode::Set_Position(double Pos[3]){
 	Position[0] = Pos[0]; //Brings the nozzle to a specific position
 	Position[1] = Pos[1];
 	Position[2] = Pos[2];
+
+	if (Position[2] < 1.5) //so that printer is not run too low accidentally
+	{
+		char ch;
+		if (Position[2] < 0.01) return; //esentially 0;
+		else
+		{
+			std::cout << "WARNING: setup_printer--part_height very low\n";
+			std::cout << "Press c to continue anyway\n";
+			ch = _getch();
+		}
+		if (ch != 'c') return; //exits program
+	}
 }
 void gcode::Home(){
 	//G28 //This command finds home

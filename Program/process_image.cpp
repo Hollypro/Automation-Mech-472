@@ -4,7 +4,7 @@
 #include "timer.h"
 #include "global_variables.h"
 #include "image_transfer3.h"
-#include "vision.h";
+#include "vision.h"
 #include "gcode.h"
 
 using namespace std;
@@ -73,8 +73,8 @@ int rgb_detection(image rgb_in, image &rgb_out)
 		}
 		else 
 		{
-			R = 0.587 * G;
-			G *= 0.587;
+			R = (ibyte)0.587 * G;
+			G *= (ibyte)0.587;
 			B = G;
 		}
 
@@ -108,7 +108,7 @@ int sobel(image grey_in, image &mag, image &theta)
 
 	ibyte *p, *p_mag, *p_theta, *p1, *p2, *p3, *p4, *p5, *p6, *p7, *p8, *p9;	// p7 p8 p9
 	i2byte width, height;														// p4 p5 p6
-	i4byte size, i, j;															// p1 p2 p3
+	i4byte size;																// p1 p2 p3
 	int sx, sy, M;
 	double ang;
 	const double pi = 3.14159;
@@ -139,7 +139,7 @@ int sobel(image grey_in, image &mag, image &theta)
 
 	size = (i4byte)width*(height - 2) - 2;
 
-	for (int i = 0; i < size; i++)
+	for (unsigned int i = 0; i < size; i++)
 	{
 		sx = -1 * (*p7) + 0 * (*p8) + 1 * (*p9)
 			- 2 * (*p4) + 0 * (*p5) + 2 * (*p6)
@@ -207,7 +207,7 @@ int sobel(image grey_in, image &mag)
 
 	ibyte *p, *p_mag, *p1, *p2, *p3, *p4, *p5, *p6, *p7, *p8, *p9;	// p7 p8 p9
 	i2byte width, height;											// p4 p5 p6
-	i4byte size, i, j;												// p1 p2 p3
+	i4byte size;													// p1 p2 p3
 	int sx, sy, M;
 	const double pi = 3.14159;
 	image temp;
@@ -236,7 +236,7 @@ int sobel(image grey_in, image &mag)
 
 	size = (i4byte)width*(height - 2) - 2;
 
-	for (int i = 0; i < size; i++)
+	for (unsigned int i = 0; i < size; i++)
 	{
 		sx = -1 * (*p7) + 0 * (*p8) + 1 * (*p9)
 			- 2 * (*p4) + 0 * (*p5) + 2 * (*p6)
@@ -287,7 +287,7 @@ int sobel(image &image_in)
 
 	ibyte *p, *p_mag, *p1, *p2, *p3, *p4, *p5, *p6, *p7, *p8, *p9;	// p7 p8 p9
 	i2byte width, height;											// p4 p5 p6
-	i4byte size, i, j;												// p1 p2 p3
+	i4byte size;													// p1 p2 p3
 	int sx, sy, M;
 	const double pi = 3.14159;
 	image temp,mag;
@@ -323,7 +323,7 @@ int sobel(image &image_in)
 
 	size = (i4byte)width*(height - 2) - 2;
 
-	for (int i = 0; i < size; i++)
+	for (unsigned int i = 0; i < size; i++)
 	{
 		sx = -1 * (*p7) + 0 * (*p8) + 1 * (*p9)
 			- 2 * (*p4) + 0 * (*p5) + 2 * (*p6)
@@ -425,7 +425,7 @@ int find_centroid(camera &cam)
 	{
 		centroid(cam.grey, cam.label, i, cam.ic[i], cam.jc[i]);
 //		cout << ic[i] << "\t" << jc[i] << "\t" << i << "\n"; //for debugging
-		draw_point(cam.grey, cam.ic[i], cam.jc[i], 125);
+		draw_point(cam.grey, (int)cam.ic[i], (int)cam.jc[i], 125);
 	}
 
 	copy(cam.grey, cam.rgb); //need rgb for view
@@ -475,7 +475,6 @@ int trace_object(gcode printer, camera cam,int obj)
 	ibyte *plab, *pgrey;
 	i4byte size;
 	double ei, ej, xyz[3];
-	int edge;
 
 	copy(cam.rgb, cam.grey);
 
@@ -484,7 +483,7 @@ int trace_object(gcode printer, camera cam,int obj)
 	plab = cam.label.pdata;
 	pgrey = cam.grey.pdata;
 
-	for (int i = 0; i < size; i++)
+	for (unsigned int i = 0; i < size; i++)
 	{
 		if (*plab == obj && *pgrey == 255) //if object looking for and if white (edge)
 		{

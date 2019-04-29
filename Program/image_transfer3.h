@@ -64,13 +64,16 @@ int free_image(image &a);
 
 //	***Our functions***
 
-int setup(camera &cam); //setup camera, images, can add more
+
+int setup_camera(camera &cam); //setup camera, images, can add more
+
+int setup_printer(gcode printer);
 
 int process_image(); // process each incoming image
 
 int rgb_detection(image rgb_in, image &rgb_out); // basic script to detect RGB and grey everything out
 
-int shutdown(camera &cam); //deallocate cameras, images, --opposite of setup()--
+int shutdown_camera(camera &cam); //deallocate cameras, images, --opposite of setup()--
 
 int sobel(image grey_in, image &mag, image &theta);
 

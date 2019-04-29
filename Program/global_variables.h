@@ -6,5 +6,6 @@
 extern const int height; //image height
 extern const int width; //image width
 extern const double part_height; //input part height
+extern const double pen_z_offset; //pen height offset in mm from nozzle head
 
 #endif
