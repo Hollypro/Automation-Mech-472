@@ -495,8 +495,8 @@ int trace_object(gcode printer, camera cam,int obj)
 			xyz[2] = printer.Get_Z(); //z
 			printer.Set_Position(xyz);
 
-			printer.Move_Down(1); //make mark
-			printer.Move_Up(1); // lift up to move
+			printer.Move_Down(5); //make mark
+			printer.Move_Up(5); // lift up to move
 		}
 		plab++; pgrey++;
 	}

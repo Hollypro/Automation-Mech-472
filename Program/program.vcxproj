@@ -128,7 +128,7 @@
     <ClCompile Include="global_variables.cpp" />
     <ClCompile Include="process_image.cpp" />
     <ClCompile Include="program.cpp" />
-    <ClCompile Include="setup_shutdown.cpp" />
+    <ClCompile Include="setup_shutdown_calibrate.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="vision.cpp" />
   </ItemGroup>

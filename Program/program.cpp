@@ -31,6 +31,7 @@ int main(int argc, char* argv[])
 //	setup_camera(front);
 
 	calibrate_camera(nozzle, printer);
+	calibrate_position(nozzle, printer);
 	system ("CLS");
 
 	while (1)
@@ -89,8 +90,8 @@ int main(int argc, char* argv[])
 				xyz[2] = printer.Get_Z(); //z
 				printer.Set_Position(xyz); //send gcode
 
-				printer.Move_Down(1); //make mark
-				printer.Move_Up(1); // lift up to move
+				printer.Move_Down(5); //make mark
+				printer.Move_Up(5); // lift up to move
 			}
 		}
 		else //edge detect and mark edge
@@ -108,10 +109,28 @@ int main(int argc, char* argv[])
 
 		view_rgb_image(nozzle.rgb);
 		system("CLS");
-		cout << "\nOptions:\n  'x' exit\n  'c' mark centroid\n  'e' mark edge\n";
-		ch = _getch();
-		if (ch == 'x') break;
-		swap++;
+
+		while (1)
+		{
+			cout << "\nOptions:\n  'x' exit\n  'c' mark centroid\n  'e' mark edge\r";
+			ch = _getch();
+			if (ch == 'c')
+			{
+				swap = 0;
+				break;
+			}
+			if (ch == 'e')
+			{
+				swap = 1;
+				break;
+			}
+			if (ch == 'x')
+			{
+				swap = 3;
+				break;
+			}
+		}
+		if (swap == 3) break;
 	}
 
 //	shutdown_camera(front);

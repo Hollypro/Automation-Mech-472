@@ -7,7 +7,7 @@ gcode::gcode(){
 	//G21 //Sets units to mm
 	Position[0] = 0.0; //Default constructor brings nozzle home
 	Position[1] = 0.0;
-	Position[2] = 0.0;
+	Position[2] = 0.0; //may need to adjust for clearance with attachments
 
 	BedSize = 20; //Sets BedSize to 20 cm
 }
@@ -36,22 +36,25 @@ double gcode::Get_Z(){
 }
 
 void gcode::Set_Position(double Pos[3]){
+	//setting bounds of printer
+	double max[3], min[3];
+	min[0] = 0.0; //x min
+	min[1] = 0.0; //y min
+	min[2] = 0.0; //z min
+
+	max[0] = BedSize * 10; //x max (mm)
+	max[1] = BedSize * 10; //y max (mm)
+	max[2] = 400; // z max --calibrate
+
+	for (int i = 0; i < 3; i++) //range check
+	{
+		if (Position[i]<min[i] || Position[i]>max[i]) Pos[i] = Position[i];
+	}
+
 	Position[0] = Pos[0]; //Brings the nozzle to a specific position
 	Position[1] = Pos[1];
 	Position[2] = Pos[2];
 
-	if (Position[2] < 1.5) //so that printer is not run too low accidentally
-	{
-		char ch;
-		if (Position[2] < 0.01) return; //esentially 0;
-		else
-		{
-			std::cout << "WARNING: setup_printer--part_height very low\n";
-			std::cout << "Press c to continue anyway\n";
-			ch = _getch();
-		}
-		if (ch != 'c') return; //exits program
-	}
 }
 void gcode::Home(){
 	//G28 //This command finds home
@@ -64,7 +67,7 @@ void gcode::Centre(){
 	//G28 //This command finds home
 	Position[0] = 0.0 + BedSize / 2.0; //Brings each coordinate to bed centre position
 	Position[1] = 0.0 + BedSize / 2.0;
-	Position[2] = 0.0;
+	Position[2] = 10.0; //10mm above bed to ensure clearance
 }
 
 void gcode::Set_BedSize(double Bed){

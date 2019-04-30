@@ -24,9 +24,6 @@
     <ClCompile Include="vision.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="setup_shutdown.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="process_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,6 +31,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gcode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="setup_shutdown_calibrate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
