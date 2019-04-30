@@ -91,4 +91,6 @@ int trace_object(gcode printer, camera cam, int obj);
 
 double gcode_convert(double pixel);
 
+int calibrate_camera(camera &cam, gcode printer);
+
 #endif

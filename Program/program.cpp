@@ -30,6 +30,9 @@ int main(int argc, char* argv[])
 	setup_camera(nozzle);
 //	setup_camera(front);
 
+	calibrate_camera(nozzle, printer);
+	system ("CLS");
+
 	while (1)
 	{
 		cout << "Choose camera view\n\tlive\t\t'l'\n\timage'a.bmp'\t'i'\n";

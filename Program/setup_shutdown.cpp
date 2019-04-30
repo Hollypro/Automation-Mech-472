@@ -80,3 +80,52 @@ int shutdown_camera(camera &cam)
 	num_cams--;
 	return 0;
 }
+
+int calibrate_camera(camera &cam, gcode printer)
+{
+	char ch;
+	int i;
+	ibyte *p;
+	double xyz[3];
+
+	printer.Centre();
+	xyz[0] = printer.Get_X();
+	xyz[1] = printer.Get_Y();
+	xyz[2] = full_vision_height;
+	printer.Set_Position(xyz);
+
+	cout << "rotate camera until lines match gridlines\n";
+	cout<<"press 'c' when done\n";
+
+	while (1)
+	{
+		get_image(cam);
+
+		p = cam.rgb.pdata + cam.rgb.width*cam.rgb.height * 2;
+		for (i = 0; i < cam.rgb.width; i++) //horizontal line
+		{
+			*p = 255; //B
+			*(p + 1) = 0; //G
+			*(p + 2) = 0; //R
+			p += 3;
+		}
+
+		p = cam.rgb.pdata + cam.rgb.width - 1;
+		for (i = 0; i < cam.rgb.height; i++) //verticle line
+		{
+			*p = 255; //B
+			*(p + 1) = 0; //G
+			*(p + 2) = 0; //R
+			p += cam.rgb.width * 3;
+		}
+		view_rgb_image(cam.rgb);
+		if (_kbhit())
+		{
+			ch = _getch();
+			if (ch == 'c') break;
+		}
+	}
+
+
+	return 0;
+}
