@@ -124,6 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gcode.cpp" />
     <ClCompile Include="global_variables.cpp" />
     <ClCompile Include="process_image.cpp" />
     <ClCompile Include="program.cpp" />
@@ -132,6 +133,7 @@
     <ClCompile Include="vision.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gcode.h" />
     <ClInclude Include="global_variables.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
