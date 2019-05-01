@@ -28,6 +28,7 @@ public:
 	PComm(int Com);
 
 	void Send_Pos(double Pos[3]);
+	void Home();
 };
 
 PComm::PComm(int Com){
@@ -61,5 +62,24 @@ void PComm::Send_Pos(double Pos[3]){
 	
 	cout << Position <<endl;
 	Port->sendArray(Position, Full.length());
+
+	delete Position;
+}
+
+void PComm::Home(){
+	char *Position;
+
+
+	Position = new char[4];
+
+	Position[0] = 'G';
+	Position[1] = '2';
+	Position[2] = '8';
+	Position[3] = '\0';
+
+	cout << Position << endl;
+	Port->sendArray(Position, 4);
+
+	delete Position;
 }
 #endif
