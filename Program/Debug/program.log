@@ -1,4 +1,4 @@
-﻿Build started 2019-04-30 6:28:30 PM.
+﻿Build started 2019-05-01 9:22:35 AM.
      1>Project "C:\Users\Curtis\Desktop\School\Mech 472\Project - Copy\Program\program.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D CONSOLE_IO /D _VC80_UPGRADE=0x0600 /D _MBCS /GF /Gm- /EHsc /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt gcode.cpp global_variables.cpp process_image.cpp program.cpp setup_shutdown_calibrate.cpp timer.cpp vision.cpp
@@ -23,4 +23,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:06.30
+Time Elapsed 00:00:34.26

@@ -65,8 +65,8 @@ void gcode::Home(){
 
 void gcode::Centre(){
 	//G28 //This command finds home
-	Position[0] = 0.0 + BedSize / 2.0; //Brings each coordinate to bed centre position
-	Position[1] = 0.0 + BedSize / 2.0;
+	Position[0] = 0.0 + BedSize*10.0 / 2.0; //Brings each coordinate to bed centre position
+	Position[1] = 0.0 + BedSize*10.0 / 2.0; // and converts cm to mm
 	Position[2] = 10.0; //10mm above bed to ensure clearance
 }
 
