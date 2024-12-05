@@ -1,6 +1,8 @@
 #pragma once
 #ifndef TRANSFER3
 #define TRANSFER3
+
+#include "gcode.h"
 // image types
 // RGB_IMAGE   is 3 bytes per pixel
 // GREY_IMAGE  is 1 bytes per pixel
@@ -28,6 +30,7 @@ typedef struct
 {
 	int num; //camera identifying number (for activate)
 	int nlabels; //number of objects in image (found in label_image)
+	double part_height[1000]; //height of each object (assuming object is all uniform height)
 	double ic[1000]; //objects centroid location i coordinate
 	double jc[1000]; //objects centroid location j coordinate
 	image rgb;
@@ -61,13 +64,16 @@ int free_image(image &a);
 
 //	***Our functions***
 
-int setup(camera &cam); //setup camera, images, can add more
+
+int setup_camera(camera &cam); //setup camera, images, can add more
+
+int setup_printer(gcode printer);
 
 int process_image(); // process each incoming image
 
 int rgb_detection(image rgb_in, image &rgb_out); // basic script to detect RGB and grey everything out
 
-int shutdown(camera &cam); //deallocate cameras, images, --opposite of setup()--
+int shutdown_camera(camera &cam); //deallocate cameras, images, --opposite of setup()--
 
 int sobel(image grey_in, image &mag, image &theta);
 
@@ -81,6 +87,12 @@ int find_edge(camera &cam);
 
 int get_image(camera &cam,  char ch[] = "live");
 
-int trace_object(camera cam, int obj);
+int trace_object(gcode printer, camera cam, int obj);
+
+double gcode_convert(double pixel);
+
+int calibrate_camera(camera cam, gcode printer);
+
+int calibrate_position(camera, gcode printer);
 
 #endif

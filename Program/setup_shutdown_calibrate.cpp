@@ -18,11 +18,9 @@ int setup_printer(gcode printer)
 
 	xyz[0] = printer.Get_X(); //x
 	xyz[1] = printer.Get_Y(); //y
-	xyz[2] = part_height + pen_z_offset; //calibrate to part height
+	xyz[2] = part_height + pen_z_offset + 5; //calibrate 5mm above part height
 
 	printer.Set_Position(xyz);
-
-	printer.Move_Up(1); //lift above part height for movement
 
 	return 0;
 }
@@ -81,7 +79,8 @@ int shutdown_camera(camera &cam)
 	return 0;
 }
 
-int calibrate_camera(camera &cam, gcode printer)
+int calibrate_camera(camera cam, gcode printer)
+//allows camera to be rotated so camera axis align with printer axis
 {
 	char ch;
 	int i;
@@ -126,6 +125,87 @@ int calibrate_camera(camera &cam, gcode printer)
 		}
 	}
 
+
+	return 0;
+}
+
+int calibrate_position(camera cam, gcode printer)
+//used for initial determination of full_vision_height and pen offsets
+{
+
+	double xyz[3];
+	bool done = FALSE;
+
+	printer.Centre();
+	cout << "Legend:\n\nMove Z\n";
+	cout << "\t'o' - raise 1mm\n\t'u' - lower 1mm\n";
+	cout << "\t'e' - raise 0.1mm\n\t'q' - lower 0.1mm\n";
+	cout << "Move X\n";
+	cout << "\t'l' - increase X by 1mm\n\t'j' - decrease X by 1mm\n";
+	cout << "\t'd' - increase X by 0.1mm\n\t'a' - decrease X by 0.1mm\n";
+	cout << "Move Y\n";
+	cout << "\t'i' - increase Y by 1mm\n\t'k' - decrease Y by 1mm\n";
+	cout << "\t'w' - increase Y by 0.1mm\n\t's' - decrease Y by 0.1mm\n";
+	cout << "'x' - exit\n\n";
+	
+	xyz[0] = printer.Get_X();
+	xyz[1] = printer.Get_Y();
+	xyz[2] = printer.Get_Z();
+
+	while (done!=TRUE)
+	{
+		printer.Set_Position(xyz);
+		get_image(cam);
+		view_rgb_image(cam.rgb);
+		cout << "X = " << xyz[0] << " Y = " << xyz[1] << " Z = " << xyz[2] << "               \r"; //need spaces to ensure full line rewritten
+
+		switch (_getch())
+		{
+		//Z movement
+		case 'o':
+			xyz[2] = xyz[2] + 1.0;
+			break;
+		case 'u':
+			xyz[2] = xyz[2] - 1.0;
+			break;
+		case 'e':
+			xyz[2] = xyz[2] + 0.1;
+			break;
+		case 'q':
+			xyz[2] = xyz[2] - 0.1;
+			break;
+		//X movement
+		case 'l':
+			xyz[0] = xyz[0] + 1.0;
+			break;
+		case 'j':
+			xyz[0] = xyz[0] - 1.0;
+			break;
+		case 'd':
+			xyz[0] = xyz[0] + 0.1;
+			break;
+		case 'a':
+			xyz[0] = xyz[0] - 0.1;
+			break;
+		//Y movement
+		case 'i':
+			xyz[1] = xyz[1] + 1.0;
+			break;
+		case 'k':
+			xyz[1] = xyz[1] - 1.0;
+			break;
+		case 'w':
+			xyz[1] = xyz[1] + 0.1;
+			break;
+		case 's':
+			xyz[1] = xyz[1] - 0.1;
+			break;
+		//exit
+		case 'x':
+			done = TRUE;
+			break;
+		}
+	}
 
 	return 0;
 }
